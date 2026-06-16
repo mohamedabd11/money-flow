@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Solid background — extends to edges for maskable support -->
+  <rect width="512" height="512" fill="#0d1b2a"/>
+
+  <!-- Glow ring -->
+  <circle cx="256" cy="224" r="188" fill="#1B5E20" opacity="0.3"/>
+
+  <!-- Coin layers — depth effect -->
+  <circle cx="256" cy="224" r="172" fill="#1B5E20"/>
+  <circle cx="256" cy="224" r="154" fill="#2E7D32"/>
+  <circle cx="256" cy="224" r="138" fill="#388E3C"/>
+  <circle cx="256" cy="224" r="122" fill="#43A047"/>
+
+  <!-- Shine highlight -->
+  <ellipse cx="218" cy="182" rx="52" ry="34" fill="white" opacity="0.12"/>
+
+  <!-- Border ring -->
+  <circle cx="256" cy="224" r="106" fill="none" stroke="#A5D6A7" stroke-width="7"/>
+
+  <!-- Riyal symbol — centered vertically in coin -->
+  <text x="256" y="270"
+        text-anchor="middle"
+        font-family="'Tahoma','Arial Unicode MS','Segoe UI',sans-serif"
+        font-size="128"
+        font-weight="900"
+        fill="#E8F5E9">﷼</text>
+
+  <!-- Three stacked gold coins at bottom (within maskable safe zone) -->
+  <ellipse cx="256" cy="438" rx="106" ry="20" fill="#E65100"/>
+  <rect  x="150" y="412" width="212" height="26" rx="9" fill="#E65100"/>
+  <ellipse cx="256" cy="412" rx="106" ry="20" fill="#FB8C00"/>
+
+  <rect  x="162" y="388" width="188" height="24" rx="8" fill="#FB8C00"/>
+  <ellipse cx="256" cy="388" rx="94"  ry="19" fill="#FFA726"/>
+
+  <rect  x="174" y="366" width="164" height="22" rx="8" fill="#FFA726"/>
+  <ellipse cx="256" cy="366" rx="82"  ry="17" fill="#FFC107"/>
+</svg>

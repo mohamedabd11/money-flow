@@ -7,6 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="عهدتي">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
   <title>عهدتي 💰</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;}
@@ -374,6 +377,9 @@
       <button class="rt-btn" id="rt-cards" onclick="rptTab('cards')"><span class="rti">💳</span><span class="rtl">تقرير البطاقات</span></button>
       <button class="rt-btn" id="rt-emps" onclick="rptTab('emps')"><span class="rti">👥</span><span class="rtl">تقرير الموظفين</span></button>
     </div>
+    <button class="big-btn b" style="font-size:16px;margin-bottom:14px;" onclick="openModal('m-export')">
+      📤 &nbsp;تصدير تقرير PDF
+    </button>
     <div id="rpt-body"></div>
   </div>
 
@@ -475,6 +481,32 @@
       <button class="m-btn m-ok" style="background:var(--red-light);" onclick="confirmClearAll()">نعم، احذف الكل</button>
       <button class="m-btn m-cancel" onclick="closeModal('m-clear')">إلغاء</button>
     </div>
+  </div>
+</div>
+
+<!-- Export PDF Modal -->
+<div class="overlay" id="m-export" onclick="bgClose(event,'m-export')">
+  <div class="modal">
+    <h3>📤 تصدير تقرير PDF</h3>
+    <p>اختر التقرير الذي تريد تصديره — ستُفتح صفحة جاهزة للطباعة أو الحفظ كـ PDF</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin:16px 0;">
+      <button onclick="doPDF('receive')" style="padding:15px 18px;border:none;border-radius:12px;background:#E8F5E9;color:#2E7D32;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;">⬇️</span> تقرير الاستلام
+      </button>
+      <button onclick="doPDF('deliver')" style="padding:15px 18px;border:none;border-radius:12px;background:#FFEBEE;color:#C62828;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;">⬆️</span> تقرير التسليم
+      </button>
+      <button onclick="doPDF('cards')" style="padding:15px 18px;border:none;border-radius:12px;background:#E3F2FD;color:#1565C0;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;">💳</span> تقرير البطاقات
+      </button>
+      <button onclick="doPDF('employees')" style="padding:15px 18px;border:none;border-radius:12px;background:#FFF8E1;color:#E65100;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;">👥</span> تقرير الموظفين
+      </button>
+      <button onclick="doPDF('all')" style="padding:15px 18px;border:none;border-radius:12px;background:#1a1a2e;color:white;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;">📋</span> تصدير الكل
+      </button>
+    </div>
+    <button class="m-btn m-cancel" style="width:100%;" onclick="closeModal('m-export')">إلغاء</button>
   </div>
 </div>
 
@@ -886,6 +918,113 @@ function exportData() {
   a.click();
   URL.revokeObjectURL(url);
   toast('تم تصدير البيانات ✅','ok');
+}
+
+// ══════════════════════════════════════════
+//  PWA — Service Worker
+// ══════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+
+// ══════════════════════════════════════════
+//  EXPORT / PDF
+// ══════════════════════════════════════════
+function doPDF(type) {
+  closeModal('m-export');
+  const date = new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+  const {totRcv,totDlv,bal} = stats();
+
+  let sections = '';
+  if (type==='receive'||type==='all') sections += psReceive();
+  if (type==='deliver'||type==='all') sections += psDeliver();
+  if (type==='cards'  ||type==='all') sections += psCards();
+  if (type==='employees'||type==='all') sections += psEmployees();
+
+  const html = `<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>عهدتي — تقرير</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;padding:20px 16px;color:#1a1a2e;background:#fff;}
+.hdr{text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:3px solid #1a1a2e;}
+.hdr h1{font-size:24px;font-weight:900;}.hdr p{font-size:12px;color:#888;margin-top:4px;}
+.sum{display:flex;justify-content:space-around;background:#1a1a2e;color:#fff;border-radius:10px;padding:14px;margin-bottom:20px;}
+.si .sl{font-size:10px;opacity:.6;}.si .sv{font-size:16px;font-weight:800;margin-top:3px;}
+.g{color:#69F0AE;}.r{color:#FF8A80;}.b{color:#82B1FF;}
+.sec{margin-bottom:20px;page-break-inside:avoid;}
+.sec h2{font-size:13px;font-weight:800;padding:8px 12px;background:#f5f5f5;border-right:4px solid #1a1a2e;border-radius:4px;margin-bottom:9px;}
+table{width:100%;border-collapse:collapse;}
+th{background:#1a1a2e;color:#fff;padding:9px 8px;font-size:11px;font-weight:700;text-align:right;}
+td{padding:8px;font-size:12px;border-bottom:1px solid #f0f0f0;text-align:right;}
+tr:nth-child(even) td{background:#fafafa;}
+td.g{color:#2E7D32;font-weight:700;}td.r{color:#C62828;font-weight:700;}
+.foot{text-align:center;margin-top:20px;font-size:10px;color:#bbb;border-top:1px solid #eee;padding-top:10px;}
+.pbt{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);padding:13px 30px;background:#1a1a2e;color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.3);}
+@media print{.pbt{display:none;}}
+</style></head><body>
+<div class="hdr"><h1>💰 عهدتي</h1><p>${date}</p></div>
+<div class="sum">
+  <div class="si"><div class="sl">إجمالي المستلم</div><div class="sv g">${fmt(totRcv)} ﷼</div></div>
+  <div class="si"><div class="sl">إجمالي المسلَّم</div><div class="sv r">${fmt(totDlv)} ﷼</div></div>
+  <div class="si"><div class="sl">الرصيد الحالي</div><div class="sv b">${fmt(bal)} ﷼</div></div>
+</div>
+${sections}
+<div class="foot">تم إنشاء هذا التقرير بواسطة تطبيق عهدتي • ${new Date().toLocaleString('ar-SA')}</div>
+<button class="pbt" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
+</body></html>`;
+
+  const w = window.open('','_blank');
+  if (!w) { toast('فعّل السماح بالنوافذ المنبثقة في المتصفح','err'); return; }
+  w.document.write(html);
+  w.document.close();
+}
+
+function psReceive() {
+  const txs = db.txs.filter(t=>t.type==='receive');
+  if (!txs.length) return '<div class="sec"><h2>⬇️ تقرير الاستلام</h2><p style="padding:10px;color:#aaa;font-size:13px;">لا توجد بيانات</p></div>';
+  const tot = txs.reduce((s,t)=>s+t.amount,0);
+  return `<div class="sec"><h2>⬇️ تقرير الاستلام — الإجمالي: ${fmt(tot)} ﷼ (${txs.length} عملية)</h2>
+<table><tr><th>المصدر</th><th>المبلغ</th><th>التاريخ والوقت</th></tr>
+${txs.map(t=>`<tr><td>${t.srcName||cardName(t.src)}</td><td class="g">+${fmt(t.amount)} ﷼</td><td>${fmtDate(t.date)}</td></tr>`).join('')}
+</table></div>`;
+}
+
+function psDeliver() {
+  const txs = db.txs.filter(t=>t.type==='deliver');
+  if (!txs.length) return '<div class="sec"><h2>⬆️ تقرير التسليم</h2><p style="padding:10px;color:#aaa;font-size:13px;">لا توجد بيانات</p></div>';
+  const tot = txs.reduce((s,t)=>s+t.amount,0);
+  return `<div class="sec"><h2>⬆️ تقرير التسليم — الإجمالي: ${fmt(tot)} ﷼ (${txs.length} عملية)</h2>
+<table><tr><th>الموظف</th><th>المبلغ</th><th>التاريخ والوقت</th></tr>
+${txs.map(t=>`<tr><td>${t.employee}</td><td class="r">-${fmt(t.amount)} ﷼</td><td>${fmtDate(t.date)}</td></tr>`).join('')}
+</table></div>`;
+}
+
+function psCards() {
+  const rows = [];
+  for (let i=0;i<6;i++) {
+    const txs = db.txs.filter(t=>t.type==='receive'&&t.src===i);
+    rows.push({name:cardName(i),tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length});
+  }
+  return `<div class="sec"><h2>💳 تقرير البطاقات ومصادر الاستلام</h2>
+<table><tr><th>المصدر</th><th>عدد العمليات</th><th>الإجمالي</th></tr>
+${rows.map(r=>`<tr><td>${r.name}</td><td>${r.cnt}</td><td class="g">${fmt(r.tot)} ﷼</td></tr>`).join('')}
+</table></div>`;
+}
+
+function psEmployees() {
+  const all = [...new Set([...db.employees,...db.txs.filter(t=>t.type==='deliver').map(t=>t.employee)])];
+  if (!all.length) return '';
+  const rows = all.map(e=>{
+    const txs = db.txs.filter(t=>t.type==='deliver'&&t.employee===e);
+    return {name:e,tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length};
+  }).sort((a,b)=>b.tot-a.tot);
+  return `<div class="sec"><h2>👥 تقرير الموظفين</h2>
+<table><tr><th>الموظف</th><th>عدد العمليات</th><th>إجمالي ما استلم</th></tr>
+${rows.map(r=>`<tr><td>${r.name}</td><td>${r.cnt}</td><td class="r">${fmt(r.tot)} ﷼</td></tr>`).join('')}
+</table></div>`;
 }
 
 // ══════════════════════════════════════════
