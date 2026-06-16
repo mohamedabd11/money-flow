@@ -14,278 +14,168 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;}
     :root{
-      --green:#2E7D32;--green-light:#4CAF50;--green-bg:#E8F5E9;
-      --red:#C62828;--red-light:#EF5350;--red-bg:#FFEBEE;
-      --blue:#1565C0;--blue-light:#2196F3;--blue-bg:#E3F2FD;
-      --orange:#E65100;--orange-light:#FF9800;
+      --green:#2E7D32;--green-l:#4CAF50;--green-bg:#E8F5E9;
+      --red:#C62828;--red-l:#EF5350;--red-bg:#FFEBEE;
+      --blue:#1565C0;--blue-l:#2196F3;--blue-bg:#E3F2FD;
+      --orange:#E65100;--orange-l:#FF9800;--orange-bg:#FFF8E1;
       --dark:#1a1a2e;--mid:#16213e;
       --gray:#f0f2f5;--card:#fff;--text:#1a1a2e;--sub:#777;--border:#e0e0e0;
     }
     html,body{height:100%;overflow:hidden;}
-    body{
-      font-family:'Segoe UI',Tahoma,Arial,sans-serif;
-      background:var(--gray);color:var(--text);
-      display:flex;flex-direction:column;
-      max-width:520px;margin:0 auto;
-      position:relative;
-    }
+    body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--gray);color:var(--text);display:flex;flex-direction:column;max-width:520px;margin:0 auto;}
 
-    /* ---- HEADER ---- */
-    .hdr{
-      background:linear-gradient(135deg,var(--dark),var(--mid));
-      color:#fff;padding:14px 16px 12px;
-      text-align:center;
-      box-shadow:0 2px 12px rgba(0,0,0,.4);
-      flex-shrink:0;z-index:10;
-      display:flex;align-items:center;justify-content:space-between;
-    }
-    .hdr-title{font-size:20px;font-weight:800;letter-spacing:.5px;}
-    .hdr-sub{font-size:11px;opacity:.6;margin-top:1px;}
-    .hdr-bal{text-align:left;}
-    .hdr-bal-lbl{font-size:10px;opacity:.6;}
-    .hdr-bal-num{font-size:18px;font-weight:700;color:#69f0ae;}
+    /* ── HEADER ── */
+    .hdr{background:linear-gradient(135deg,var(--dark),var(--mid));color:#fff;padding:14px 16px 12px;box-shadow:0 2px 12px rgba(0,0,0,.4);flex-shrink:0;z-index:10;display:flex;align-items:center;justify-content:space-between;}
+    .hdr-title{font-size:20px;font-weight:800;}.hdr-sub{font-size:11px;opacity:.55;margin-top:1px;}
+    .hdr-bal{text-align:left;cursor:pointer;}
+    .hdr-bal-lbl{font-size:10px;opacity:.6;}.hdr-bal-num{font-size:18px;font-weight:700;color:#69f0ae;}
 
-    /* ---- SCREENS ---- */
-    .screens{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+    /* ── SCREENS ── */
+    .screens{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none;}
+    .screens::-webkit-scrollbar{display:none;}
     .screen{display:none;padding:14px 14px 90px;}
     .screen.on{display:block;}
 
-    /* ---- NAV ---- */
-    .nav{
-      display:flex;background:#fff;
-      border-top:1px solid var(--border);
-      box-shadow:0 -2px 10px rgba(0,0,0,.08);
-      flex-shrink:0;z-index:10;
-    }
-    .nb{
-      flex:1;padding:10px 4px 8px;border:none;background:0;cursor:pointer;
-      display:flex;flex-direction:column;align-items:center;gap:3px;color:#aaa;
-      transition:color .2s;
-    }
-    .nb.on{color:var(--blue-light);}
-    .nb .ni{font-size:22px;}
-    .nb .nl{font-size:10px;font-weight:700;}
+    /* ── BOTTOM NAV ── */
+    .nav{display:flex;background:#fff;border-top:1px solid var(--border);box-shadow:0 -2px 10px rgba(0,0,0,.08);flex-shrink:0;z-index:10;}
+    .nb{flex:1;padding:9px 4px 7px;border:none;background:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;color:#aaa;transition:color .2s;}
+    .nb.on{color:var(--blue-l);}.nb .ni{font-size:21px;}.nb .nl{font-size:10px;font-weight:700;}
 
-    /* ---- CARDS ---- */
+    /* ── CARD ── */
     .card{background:var(--card);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
-    .lbl{font-size:13px;color:var(--sub);font-weight:600;margin-bottom:10px;}
+    .lbl{font-size:13px;color:var(--sub);font-weight:700;margin-bottom:10px;}
 
-    /* ---- BIG ACTION BTN ---- */
-    .big-btn{
-      width:100%;padding:18px;border:none;border-radius:16px;
-      font-size:20px;font-weight:800;color:#fff;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;gap:10px;
-      margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,.2);
-      transition:transform .1s,opacity .1s;
-    }
+    /* ── BIG BUTTON ── */
+    .big-btn{width:100%;padding:17px;border:none;border-radius:16px;font-size:19px;font-weight:800;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,.18);transition:transform .1s,opacity .1s;}
     .big-btn:active{transform:scale(.97);opacity:.9;}
-    .g{background:linear-gradient(135deg,var(--green-light),var(--green));}
-    .r{background:linear-gradient(135deg,var(--red-light),var(--red));}
-    .b{background:linear-gradient(135deg,var(--blue-light),var(--blue));}
-    .o{background:linear-gradient(135deg,var(--orange-light),var(--orange));}
+    .bg{background:linear-gradient(135deg,var(--green-l),var(--green));}
+    .br{background:linear-gradient(135deg,var(--red-l),var(--red));}
+    .bb{background:linear-gradient(135deg,var(--blue-l),var(--blue));}
+    .bo{background:linear-gradient(135deg,var(--orange-l),var(--orange));}
 
-    /* ---- AMOUNT INPUT ---- */
-    .amt-inp{
-      width:100%;padding:14px 16px;font-size:30px;font-weight:700;
-      border:2px solid var(--border);border-radius:12px;
-      text-align:center;direction:ltr;
-      background:#f8f9fa;color:var(--text);transition:border-color .2s;
-    }
-    .amt-inp:focus{outline:none;border-color:var(--blue-light);background:#fff;}
+    /* ── AMOUNT INPUT ── */
+    .amt-inp{width:100%;padding:14px 16px;font-size:30px;font-weight:700;border:2px solid var(--border);border-radius:12px;text-align:center;direction:ltr;background:#f8f9fa;color:var(--text);transition:border-color .2s;}
+    .amt-inp:focus{outline:none;border-color:var(--blue-l);background:#fff;}
 
-    /* ---- SOURCE GRID ---- */
+    /* ── SOURCE GRID ── */
     .src-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
-    .src-btn{
-      padding:12px 6px 10px;border:2px solid var(--border);border-radius:12px;
-      background:#fff;cursor:pointer;
-      display:flex;flex-direction:column;align-items:center;gap:5px;
-      transition:all .15s;
-    }
-    .src-btn .si{font-size:22px;}
-    .src-btn .sn{font-size:11px;font-weight:700;color:#555;text-align:center;line-height:1.3;}
-    .src-btn .se{font-size:10px;color:var(--blue-light);cursor:pointer;margin-top:2px;}
-    .src-btn.on{border-color:var(--green-light);background:var(--green-bg);}
-    .src-btn.on .sn{color:var(--green);}
+    .src-btn{padding:12px 6px 10px;border:2px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s;}
+    .src-btn .si{font-size:22px;}.src-btn .sn{font-size:11px;font-weight:700;color:#555;text-align:center;line-height:1.3;}
+    .src-btn .se{font-size:10px;color:var(--blue-l);cursor:pointer;margin-top:2px;}
+    .src-btn.on{border-color:var(--green-l);background:var(--green-bg);}.src-btn.on .sn{color:var(--green);}
 
-    /* ---- EMPLOYEE LIST ---- */
+    /* ── DELIVER TOGGLE ── */
+    .dlv-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+    .dt-btn{padding:16px 8px;border:2px solid var(--border);border-radius:14px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;}
+    .dt-btn .dt-i{font-size:26px;}.dt-btn .dt-l{font-size:13px;font-weight:800;color:#999;}
+    .dt-btn.rt.on{border-color:var(--red-l);background:var(--red-bg);}.dt-btn.rt.on .dt-l{color:var(--red);}
+    .dt-btn.ot.on{border-color:var(--orange-l);background:var(--orange-bg);}.dt-btn.ot.on .dt-l{color:var(--orange);}
+
+    /* ── EMPLOYEE LIST ── */
     .emp-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
-    .emp-btn{
-      padding:13px 16px;border:2px solid var(--border);border-radius:12px;
-      background:#fff;cursor:pointer;
-      display:flex;align-items:center;gap:12px;
-      transition:all .15s;
-    }
-    .emp-btn.on{border-color:var(--red-light);background:var(--red-bg);}
-    .emp-btn .ei{font-size:22px;}
-    .emp-btn .en{font-size:15px;font-weight:700;color:#333;}
+    .emp-btn{padding:13px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .15s;}
+    .emp-btn.on{border-color:var(--red-l);background:var(--red-bg);}
+    .emp-btn .ei{font-size:22px;}.emp-btn .en{font-size:15px;font-weight:700;color:#333;}
     .emp-btn.on .en{color:var(--red);}
-    .add-emp-btn{
-      width:100%;padding:13px;border:2px dashed #ccc;border-radius:12px;
-      background:0;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;gap:8px;
-      font-size:14px;font-weight:700;color:#888;margin-bottom:16px;
-    }
+    .add-btn{width:100%;padding:13px;border:2px dashed #ccc;border-radius:12px;background:0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:700;color:#888;margin-bottom:14px;}
 
-    /* ---- SAVE BTN ---- */
-    .save-btn{
-      width:100%;padding:16px;border:none;border-radius:12px;
-      font-size:17px;font-weight:800;color:#fff;cursor:pointer;
-      background:linear-gradient(135deg,var(--blue-light),var(--blue));
-      box-shadow:0 4px 12px rgba(33,150,243,.3);
-      transition:transform .1s,opacity .1s;
-    }
+    /* ── EXPENSE CATEGORY ── */
+    .exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+    .exp-btn{padding:14px 6px 12px;border:2px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s;}
+    .exp-btn .exi{font-size:22px;}.exp-btn .exn{font-size:11px;font-weight:700;color:#555;text-align:center;line-height:1.3;}
+    .exp-btn.on{border-color:var(--orange-l);background:var(--orange-bg);}.exp-btn.on .exn{color:var(--orange);}
+
+    /* ── SAVE BTN ── */
+    .save-btn{width:100%;padding:16px;border:none;border-radius:12px;font-size:17px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:transform .1s;}
     .save-btn:active{transform:scale(.98);}
 
-    /* ---- BALANCE SCREEN ---- */
-    .bal-hero{
-      background:linear-gradient(135deg,var(--dark),var(--mid));
-      color:#fff;border-radius:20px;padding:28px 20px;
-      text-align:center;margin-bottom:14px;
-    }
-    .bal-lbl{font-size:13px;opacity:.65;margin-bottom:6px;}
-    .bal-num{font-size:46px;font-weight:800;line-height:1;}
-    .bal-cur{font-size:13px;opacity:.55;margin-top:6px;}
+    /* ── BALANCE SCREEN ── */
+    .bal-hero{background:linear-gradient(135deg,var(--dark),var(--mid));color:#fff;border-radius:20px;padding:28px 20px;text-align:center;margin-bottom:14px;}
+    .bal-lbl{font-size:13px;opacity:.65;margin-bottom:6px;}.bal-num{font-size:46px;font-weight:800;line-height:1;}.bal-cur{font-size:13px;opacity:.55;margin-top:6px;}
     .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
     .stat{border-radius:16px;padding:18px 14px;text-align:center;}
-    .stat.rcv{background:var(--green-bg);border:2px solid var(--green-light);}
-    .stat.dlv{background:var(--red-bg);border:2px solid var(--red-light);}
-    .stat .sticon{font-size:26px;margin-bottom:6px;}
-    .stat .stlbl{font-size:11px;color:var(--sub);font-weight:700;margin-bottom:5px;}
-    .stat .stnum{font-size:20px;font-weight:800;}
-    .stat.rcv .stnum{color:var(--green);}
-    .stat.dlv .stnum{color:var(--red);}
-    .today-row{
-      background:var(--blue-bg);border:2px solid var(--blue-light);
-      border-radius:14px;padding:14px 16px;
-      display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;
-    }
-    .today-left{display:flex;align-items:center;gap:10px;}
-    .today-lbl{font-size:12px;color:var(--blue);font-weight:700;}
-    .today-num{font-size:30px;font-weight:800;color:var(--blue);}
+    .stat.rcv{background:var(--green-bg);border:2px solid var(--green-l);}
+    .stat.dlv{background:var(--red-bg);border:2px solid var(--red-l);}
+    .stat .sticon{font-size:26px;margin-bottom:6px;}.stat .stlbl{font-size:11px;color:var(--sub);font-weight:700;margin-bottom:5px;}.stat .stnum{font-size:20px;font-weight:800;}
+    .stat.rcv .stnum{color:var(--green);}.stat.dlv .stnum{color:var(--red);}
+    .exp-stat{background:var(--orange-bg);border:2px solid var(--orange-l);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:12px;}
+    .exp-stat .sticon{font-size:26px;}.exp-stat .stlbl{font-size:11px;color:var(--sub);font-weight:700;margin-bottom:4px;}.exp-stat .stnum{font-size:22px;font-weight:800;color:var(--orange);}
+    .today-row{background:var(--blue-bg);border:2px solid var(--blue-l);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .today-l{display:flex;align-items:center;gap:10px;}.today-lbl{font-size:12px;color:var(--blue);font-weight:700;}.today-num{font-size:30px;font-weight:800;color:var(--blue);}
 
-    /* ---- INVENTORY RESULT ---- */
+    /* ── INVENTORY RESULT ── */
     .inv-res{border-radius:16px;padding:22px 16px;text-align:center;margin-top:14px;}
-    .inv-res.ok{background:var(--green-bg);border:2px solid var(--green-light);}
-    .inv-res.diff{background:var(--red-bg);border:2px solid var(--red-light);}
-    .inv-res .iri{font-size:50px;margin-bottom:10px;}
-    .inv-res .irt{font-size:20px;font-weight:800;}
-    .inv-res.ok .irt{color:var(--green);}
-    .inv-res.diff .irt{color:var(--red);}
-    .inv-res .ird{font-size:13px;color:var(--sub);margin-top:6px;}
-    .inv-res .ird b{font-size:16px;color:var(--text);}
+    .inv-res.ok{background:var(--green-bg);border:2px solid var(--green-l);}
+    .inv-res.diff{background:var(--red-bg);border:2px solid var(--red-l);}
+    .inv-res .iri{font-size:50px;margin-bottom:10px;}.inv-res .irt{font-size:20px;font-weight:800;}.inv-res .ird{font-size:13px;color:var(--sub);margin-top:6px;}
+    .inv-res.ok .irt{color:var(--green);}.inv-res.diff .irt{color:var(--red);}
 
-    /* ---- REPORTS ---- */
-    .rpt-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
-    .rt-btn{
-      padding:14px 8px;border:2px solid var(--border);border-radius:12px;
-      background:#fff;cursor:pointer;
-      display:flex;flex-direction:column;align-items:center;gap:6px;
-      transition:all .15s;
-    }
-    .rt-btn.on{border-color:var(--blue-light);background:var(--blue-bg);}
-    .rt-btn .rti{font-size:22px;}
-    .rt-btn .rtl{font-size:12px;font-weight:700;color:#555;}
-    .rt-btn.on .rtl{color:var(--blue);}
+    /* ── REPORTS TABS ── */
+    .rpt-scroll{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
+    .rpt-scroll::-webkit-scrollbar{display:none;}
+    .rt-chip{flex-shrink:0;padding:11px 16px;border:2px solid var(--border);border-radius:50px;background:#fff;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#888;white-space:nowrap;transition:all .15s;}
+    .rt-chip.on{border-color:var(--blue-l);background:var(--blue-bg);color:var(--blue);}
 
-    /* ---- TX LIST ---- */
+    /* ── TX LIST ── */
     .tx-list{display:flex;flex-direction:column;gap:9px;}
-    .tx{
-      background:#fff;border-radius:12px;padding:13px 15px;
-      display:flex;align-items:center;justify-content:space-between;
-      box-shadow:0 1px 5px rgba(0,0,0,.07);
-    }
+    .tx{background:#fff;border-radius:12px;padding:13px 15px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 5px rgba(0,0,0,.07);}
     .tx-l{display:flex;align-items:center;gap:11px;}
     .txi{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;}
-    .txi.g{background:var(--green-bg);}
-    .txi.r{background:var(--red-bg);}
-    .tx-src{font-size:14px;font-weight:700;}
-    .tx-dt{font-size:11px;color:#aaa;margin-top:2px;}
+    .txi.g{background:var(--green-bg);}.txi.r{background:var(--red-bg);}.txi.o{background:var(--orange-bg);}
+    .tx-src{font-size:14px;font-weight:700;}.tx-dt{font-size:11px;color:#aaa;margin-top:2px;}
     .tx-amt{font-size:16px;font-weight:800;}
-    .tx-amt.g{color:var(--green);}
-    .tx-amt.r{color:var(--red);}
+    .tx-amt.g{color:var(--green);}.tx-amt.r{color:var(--red);}.tx-amt.o{color:var(--orange);}
 
-    /* ---- REPORT SUMMARY BAR ---- */
-    .rpt-sum{
-      background:linear-gradient(135deg,var(--blue-bg),#BBDEFB);
-      border-radius:12px;padding:14px;
-      display:flex;justify-content:space-around;margin-bottom:14px;
-    }
-    .rs-item{text-align:center;}
-    .rs-lbl{font-size:11px;color:var(--blue);font-weight:700;margin-bottom:3px;}
-    .rs-val{font-size:17px;font-weight:800;color:#0D47A1;}
+    /* ── REPORT SUMMARY ── */
+    .rpt-sum{background:linear-gradient(135deg,var(--blue-bg),#BBDEFB);border-radius:12px;padding:14px;display:flex;justify-content:space-around;margin-bottom:14px;}
+    .rs-item{text-align:center;}.rs-lbl{font-size:11px;color:var(--blue);font-weight:700;margin-bottom:3px;}.rs-val{font-size:17px;font-weight:800;color:#0D47A1;}
+    .cs-card{background:#fff;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 5px rgba(0,0,0,.07);margin-bottom:9px;}
+    .cs-l{display:flex;align-items:center;gap:12px;}.cs-icon{width:42px;height:42px;border-radius:11px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;font-size:20px;}
+    .cs-name{font-size:14px;font-weight:700;}.cs-cnt{font-size:11px;color:#aaa;margin-top:2px;}.cs-amt{font-size:16px;font-weight:800;color:var(--green);}
 
-    /* ---- CARD STATS ROW ---- */
-    .card-stat{
-      background:#fff;border-radius:12px;padding:14px 16px;
-      display:flex;align-items:center;justify-content:space-between;
-      box-shadow:0 1px 5px rgba(0,0,0,.07);margin-bottom:9px;
-    }
-    .cs-l{display:flex;align-items:center;gap:12px;}
-    .cs-icon{width:42px;height:42px;border-radius:11px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;font-size:20px;}
-    .cs-name{font-size:14px;font-weight:700;}
-    .cs-cnt{font-size:11px;color:#aaa;margin-top:2px;}
-    .cs-amt{font-size:16px;font-weight:800;color:var(--green);}
+    /* ── SETTINGS ── */
+    .set-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f2f2f2;}
+    .set-row:last-child{border-bottom:none;}
+    .set-label{font-size:15px;font-weight:700;}.set-sub{font-size:12px;color:var(--sub);margin-top:2px;}
+    .set-action{padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
+    .set-action.danger{background:var(--red-bg);color:var(--red);}.set-action.info{background:var(--blue-bg);color:var(--blue);}
 
-    /* ---- MODAL ---- */
-    .overlay{
-      display:none;position:fixed;inset:0;
-      background:rgba(0,0,0,.55);z-index:200;
-      align-items:center;justify-content:center;padding:20px;
-    }
+    /* ── ABOUT CARD ── */
+    .about-card{background:linear-gradient(150deg,#0d1b2a,#1a2e45);border-radius:20px;padding:28px 20px;text-align:center;color:#fff;margin-top:6px;}
+    .about-ico{font-size:54px;margin-bottom:8px;}
+    .about-app{font-size:24px;font-weight:900;letter-spacing:.5px;margin-bottom:4px;}
+    .about-tagline{font-size:11px;opacity:.5;margin-bottom:18px;}
+    .about-divider{width:50px;height:2px;background:rgba(255,255,255,.15);margin:0 auto 18px;}
+    .about-dev-lbl{font-size:11px;opacity:.5;margin-bottom:5px;}
+    .about-dev-name{font-size:20px;font-weight:900;color:#69F0AE;margin-bottom:6px;letter-spacing:.5px;}
+    .about-rights{font-size:12px;opacity:.4;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);}
+
+    /* ── MODAL ── */
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;padding:20px;}
     .overlay.on{display:flex;}
     .modal{background:#fff;border-radius:22px;padding:24px;width:100%;max-width:360px;}
-    .modal h3{font-size:18px;font-weight:800;margin-bottom:14px;text-align:center;}
+    .modal h3{font-size:18px;font-weight:800;margin-bottom:10px;text-align:center;}
     .modal p{font-size:13px;color:var(--sub);text-align:center;margin-bottom:14px;}
-    .m-inp{
-      width:100%;padding:14px;font-size:18px;font-weight:700;
-      border:2px solid var(--border);border-radius:11px;
-      margin-bottom:16px;text-align:center;
-    }
-    .m-inp:focus{outline:none;border-color:var(--blue-light);}
+    .m-inp{width:100%;padding:14px;font-size:18px;font-weight:700;border:2px solid var(--border);border-radius:11px;margin-bottom:14px;text-align:center;}
+    .m-inp:focus{outline:none;border-color:var(--blue-l);}
     .m-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
     .m-btn{padding:14px;border:none;border-radius:11px;font-size:15px;font-weight:800;cursor:pointer;}
-    .m-ok{background:var(--blue-light);color:#fff;}
-    .m-cancel{background:#f2f2f2;color:#666;}
+    .m-ok{background:var(--blue-l);color:#fff;}.m-cancel{background:#f2f2f2;color:#666;}
 
-    /* ---- TOAST ---- */
-    .toast{
-      position:fixed;top:72px;left:50%;transform:translateX(-50%);
-      background:#333;color:#fff;padding:11px 22px;border-radius:50px;
-      font-size:14px;font-weight:700;z-index:400;
-      opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none;
-    }
-    .toast.on{opacity:1;}
-    .toast.ok{background:var(--green-light);}
-    .toast.err{background:var(--red-light);}
+    /* ── EXPORT MODAL BUTTONS ── */
+    .exp-modal-btn{width:100%;padding:15px 18px;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 
-    /* ---- EMPTY ---- */
-    .empty{text-align:center;padding:40px 20px;color:#bbb;}
-    .empty .ei{font-size:56px;margin-bottom:12px;}
-    .empty p{font-size:14px;}
+    /* ── TOAST ── */
+    .toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:11px 22px;border-radius:50px;font-size:14px;font-weight:700;z-index:400;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none;}
+    .toast.on{opacity:1;}.toast.ok{background:var(--green-l);}.toast.err{background:var(--red-l);}
 
-    /* ---- SETTINGS ---- */
-    .set-row{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-bottom:1px solid #f2f2f2;
-    }
-    .set-row:last-child{border-bottom:none;}
-    .set-label{font-size:15px;font-weight:700;}
-    .set-sub{font-size:12px;color:var(--sub);margin-top:2px;}
-    .set-action{
-      padding:8px 16px;border:none;border-radius:8px;
-      font-size:13px;font-weight:700;cursor:pointer;
-    }
-    .set-action.danger{background:var(--red-bg);color:var(--red);}
-    .set-action.info{background:var(--blue-bg);color:var(--blue);}
-
-    /* scrollbar hide */
-    .screens::-webkit-scrollbar{display:none;}
-    .screens{-ms-overflow-style:none;scrollbar-width:none;}
+    /* ── EMPTY ── */
+    .empty{text-align:center;padding:40px 20px;color:#bbb;}.empty .ei{font-size:56px;margin-bottom:12px;}.empty p{font-size:14px;}
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ── HEADER ── -->
 <div class="hdr">
   <div>
     <div class="hdr-title">💰 عهدتي</div>
@@ -297,45 +187,65 @@
   </div>
 </div>
 
-<!-- SCREENS -->
 <div class="screens">
 
-  <!-- ═══ SCREEN: RECEIVE ═══ -->
+  <!-- ══════ SCREEN 1: RECEIVE ══════ -->
   <div id="sc-receive" class="screen on">
-    <button class="big-btn g">⬇️ استلام مبلغ</button>
-
+    <button class="big-btn bg">⬇️ استلام مبلغ</button>
     <div class="card">
       <div class="lbl">💵 المبلغ المستلم</div>
       <input class="amt-inp" id="rcv-amt" type="number" inputmode="decimal" placeholder="0.00" step="0.01" min="0">
     </div>
-
     <div class="card">
       <div class="lbl">📌 مصدر الاستلام — اضغط لاختيار</div>
       <div class="src-grid" id="src-grid"></div>
     </div>
-
-    <button class="save-btn" onclick="saveReceive()">✅ &nbsp;حفظ الاستلام</button>
+    <button class="save-btn" style="background:linear-gradient(135deg,var(--green-l),var(--green));" onclick="saveReceive()">✅ &nbsp;حفظ الاستلام</button>
   </div>
 
-  <!-- ═══ SCREEN: DELIVER ═══ -->
+  <!-- ══════ SCREEN 2: DELIVER + EXPENSE ══════ -->
   <div id="sc-deliver" class="screen">
-    <button class="big-btn r">⬆️ تسليم مبلغ</button>
 
-    <div class="card">
-      <div class="lbl">👤 اختر الموظف</div>
-      <div class="emp-list" id="emp-list"></div>
-      <button class="add-emp-btn" onclick="openModal('m-add-emp')">➕ &nbsp;إضافة موظف جديد</button>
+    <!-- Toggle -->
+    <div class="dlv-toggle">
+      <button class="dt-btn rt on" id="dt-emp" onclick="dlvTab('emp')">
+        <span class="dt-i">⬆️</span><span class="dt-l">تسليم لموظف</span>
+      </button>
+      <button class="dt-btn ot" id="dt-exp" onclick="dlvTab('exp')">
+        <span class="dt-i">💸</span><span class="dt-l">مصروف عام</span>
+      </button>
     </div>
 
-    <div class="card">
-      <div class="lbl">💵 المبلغ المسلَّم</div>
-      <input class="amt-inp" id="dlv-amt" type="number" inputmode="decimal" placeholder="0.00" step="0.01" min="0">
+    <!-- Section A: Deliver to Employee -->
+    <div id="dlv-emp-sec">
+      <div class="card">
+        <div class="lbl">👤 اختر الموظف</div>
+        <div class="emp-list" id="emp-list"></div>
+        <button class="add-btn" onclick="openModal('m-add-emp')">➕ &nbsp;إضافة موظف جديد</button>
+      </div>
+      <div class="card">
+        <div class="lbl">💵 المبلغ المسلَّم</div>
+        <input class="amt-inp" id="dlv-amt" type="number" inputmode="decimal" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <button class="save-btn" style="background:linear-gradient(135deg,var(--red-l),var(--red));" onclick="saveDeliver()">✅ &nbsp;حفظ التسليم</button>
     </div>
 
-    <button class="save-btn" style="background:linear-gradient(135deg,var(--red-light),var(--red));box-shadow:0 4px 12px rgba(239,83,80,.3);" onclick="saveDeliver()">✅ &nbsp;حفظ التسليم</button>
+    <!-- Section B: General Expense -->
+    <div id="dlv-exp-sec" style="display:none">
+      <div class="card">
+        <div class="lbl">📂 نوع المصروف — اضغط لاختيار</div>
+        <div class="exp-grid" id="exp-cat-grid"></div>
+        <button class="add-btn" onclick="openModal('m-add-cat')">➕ &nbsp;إضافة نوع مصروف جديد</button>
+      </div>
+      <div class="card">
+        <div class="lbl">💵 مبلغ المصروف</div>
+        <input class="amt-inp" id="exp-amt" type="number" inputmode="decimal" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <button class="save-btn" style="background:linear-gradient(135deg,var(--orange-l),var(--orange));" onclick="saveExpense()">✅ &nbsp;حفظ المصروف</button>
+    </div>
   </div>
 
-  <!-- ═══ SCREEN: BALANCE ═══ -->
+  <!-- ══════ SCREEN 3: BALANCE ══════ -->
   <div id="sc-balance" class="screen">
     <div class="bal-hero">
       <div class="bal-lbl">💼 الرصيد الحالي معك</div>
@@ -356,34 +266,40 @@
       </div>
     </div>
 
-    <div class="today-row">
-      <div class="today-left">
-        <span style="font-size:26px;">📅</span>
-        <div class="today-lbl">عمليات اليوم</div>
+    <div class="exp-stat">
+      <div class="sticon">💸</div>
+      <div>
+        <div class="stlbl">إجمالي المصروفات</div>
+        <div class="stnum" id="tot-exp">0</div>
       </div>
+    </div>
+
+    <div class="today-row">
+      <div class="today-l"><span style="font-size:26px;">📅</span><div class="today-lbl">عمليات اليوم</div></div>
       <div class="today-num" id="today-cnt">0</div>
     </div>
 
-    <button class="big-btn o" onclick="openModal('m-inv')">🔍 &nbsp;جرد سريع — كم معك الآن؟</button>
-
+    <button class="big-btn bo" onclick="openModal('m-inv')">🔍 &nbsp;جرد سريع — كم معك الآن؟</button>
     <div id="inv-result"></div>
   </div>
 
-  <!-- ═══ SCREEN: REPORTS ═══ -->
+  <!-- ══════ SCREEN 4: REPORTS ══════ -->
   <div id="sc-reports" class="screen">
-    <div class="rpt-tabs">
-      <button class="rt-btn on" id="rt-rcv" onclick="rptTab('rcv')"><span class="rti">⬇️</span><span class="rtl">تقرير الاستلام</span></button>
-      <button class="rt-btn" id="rt-dlv" onclick="rptTab('dlv')"><span class="rti">⬆️</span><span class="rtl">تقرير التسليم</span></button>
-      <button class="rt-btn" id="rt-cards" onclick="rptTab('cards')"><span class="rti">💳</span><span class="rtl">تقرير البطاقات</span></button>
-      <button class="rt-btn" id="rt-emps" onclick="rptTab('emps')"><span class="rti">👥</span><span class="rtl">تقرير الموظفين</span></button>
+    <button class="big-btn bb" style="font-size:16px;" onclick="openModal('m-export')">📤 &nbsp;تصدير تقرير PDF</button>
+
+    <!-- Scrollable tabs -->
+    <div class="rpt-scroll">
+      <button class="rt-chip on" id="rc-rcv" onclick="rptTab('rcv')">⬇️ الاستلام</button>
+      <button class="rt-chip" id="rc-dlv" onclick="rptTab('dlv')">⬆️ التسليم</button>
+      <button class="rt-chip" id="rc-exps" onclick="rptTab('exps')">💸 المصروفات</button>
+      <button class="rt-chip" id="rc-cards" onclick="rptTab('cards')">💳 البطاقات</button>
+      <button class="rt-chip" id="rc-emps" onclick="rptTab('emps')">👥 الموظفين</button>
     </div>
-    <button class="big-btn b" style="font-size:16px;margin-bottom:14px;" onclick="openModal('m-export')">
-      📤 &nbsp;تصدير تقرير PDF
-    </button>
+
     <div id="rpt-body"></div>
   </div>
 
-  <!-- ═══ SCREEN: SETTINGS ═══ -->
+  <!-- ══════ SCREEN 5: SETTINGS ══════ -->
   <div id="sc-settings" class="screen">
     <div class="card">
       <div class="lbl">⚙️ الإعدادات</div>
@@ -392,7 +308,7 @@
         <button class="set-action danger" onclick="clearAll()">حذف الكل</button>
       </div>
       <div class="set-row">
-        <div><div class="set-label">📤 تصدير البيانات</div><div class="set-sub">حفظ نسخة احتياطية</div></div>
+        <div><div class="set-label">📤 تصدير بيانات نسخ احتياطي</div><div class="set-sub">حفظ ملف JSON</div></div>
         <button class="set-action info" onclick="exportData()">تصدير</button>
       </div>
     </div>
@@ -405,13 +321,30 @@
     <div class="card">
       <div class="lbl">👥 إدارة الموظفين</div>
       <div id="emp-settings-list"></div>
-      <button class="add-emp-btn" style="margin-top:10px;" onclick="openModal('m-add-emp')">➕ &nbsp;إضافة موظف</button>
+      <button class="add-btn" style="margin-top:10px;" onclick="openModal('m-add-emp')">➕ &nbsp;إضافة موظف</button>
+    </div>
+
+    <div class="card">
+      <div class="lbl">💸 إدارة أنواع المصروفات</div>
+      <div id="exp-cat-settings"></div>
+      <button class="add-btn" style="margin-top:10px;" onclick="openModal('m-add-cat')">➕ &nbsp;إضافة نوع مصروف</button>
+    </div>
+
+    <!-- ── ABOUT — FIXED, CANNOT BE EDITED ── -->
+    <div class="about-card">
+      <div class="about-ico">💰</div>
+      <div class="about-app">عهدتي</div>
+      <div class="about-tagline">إدارة العهدة النقدية</div>
+      <div class="about-divider"></div>
+      <div class="about-dev-lbl">تصميم وتطوير</div>
+      <div class="about-dev-name">محمد عبد العظيم</div>
+      <div class="about-rights">جميع الحقوق محفوظة &copy; ٢٠٢٥</div>
     </div>
   </div>
 
 </div><!-- /screens -->
 
-<!-- BOTTOM NAV -->
+<!-- ── BOTTOM NAV ── -->
 <nav class="nav">
   <button class="nb on" id="nb0" onclick="go('receive',0)"><span class="ni">⬇️</span><span class="nl">استلام</span></button>
   <button class="nb" id="nb1" onclick="go('deliver',1)"><span class="ni">⬆️</span><span class="nl">تسليم</span></button>
@@ -420,7 +353,8 @@
   <button class="nb" id="nb4" onclick="go('settings',4)"><span class="ni">⚙️</span><span class="nl">إعدادات</span></button>
 </nav>
 
-<!-- ═══ MODALS ═══ -->
+<!-- ══════ MODALS ══════ -->
+
 <!-- Add Employee -->
 <div class="overlay" id="m-add-emp" onclick="bgClose(event,'m-add-emp')">
   <div class="modal">
@@ -429,6 +363,19 @@
     <div class="m-btns">
       <button class="m-btn m-ok" onclick="addEmployee()">إضافة</button>
       <button class="m-btn m-cancel" onclick="closeModal('m-add-emp')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Expense Category -->
+<div class="overlay" id="m-add-cat" onclick="bgClose(event,'m-add-cat')">
+  <div class="modal">
+    <h3>💸 نوع مصروف جديد</h3>
+    <p>مثال: 🚗 مواصلات &nbsp;|&nbsp; 💊 صحة &nbsp;|&nbsp; 📱 اتصالات</p>
+    <input class="m-inp" id="cat-name-inp" type="text" placeholder="أيقونة + اسم المصروف" maxlength="30">
+    <div class="m-btns">
+      <button class="m-btn m-ok" onclick="addExpCat()">إضافة</button>
+      <button class="m-btn m-cancel" onclick="closeModal('m-add-cat')">إلغاء</button>
     </div>
   </div>
 </div>
@@ -459,52 +406,56 @@
   </div>
 </div>
 
-<!-- Delete Employee Confirm -->
+<!-- Delete Employee -->
 <div class="overlay" id="m-del-emp" onclick="bgClose(event,'m-del-emp')">
   <div class="modal">
     <h3>⚠️ حذف موظف</h3>
-    <p>هل تريد حذف هذا الموظف؟<br>لن تُحذف عملياته السابقة.</p>
+    <p>هل تريد حذف هذا الموظف؟ لن تُحذف عملياته السابقة.</p>
     <input type="hidden" id="del-emp-name">
     <div class="m-btns">
-      <button class="m-btn m-ok" style="background:var(--red-light);" onclick="confirmDeleteEmp()">حذف</button>
+      <button class="m-btn" style="background:var(--red-l);color:#fff;" onclick="confirmDelEmp()">حذف</button>
       <button class="m-btn m-cancel" onclick="closeModal('m-del-emp')">إلغاء</button>
     </div>
   </div>
 </div>
 
-<!-- Confirm Clear All -->
+<!-- Delete Expense Category -->
+<div class="overlay" id="m-del-cat" onclick="bgClose(event,'m-del-cat')">
+  <div class="modal">
+    <h3>⚠️ حذف نوع مصروف</h3>
+    <p>هل تريد حذف هذا النوع؟</p>
+    <input type="hidden" id="del-cat-name">
+    <div class="m-btns">
+      <button class="m-btn" style="background:var(--orange-l);color:#fff;" onclick="confirmDelCat()">حذف</button>
+      <button class="m-btn m-cancel" onclick="closeModal('m-del-cat')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Clear All -->
 <div class="overlay" id="m-clear" onclick="bgClose(event,'m-clear')">
   <div class="modal">
     <h3>⚠️ تحذير</h3>
     <p>سيتم حذف جميع البيانات نهائياً.<br>هذا الإجراء لا يمكن التراجع عنه!</p>
     <div class="m-btns">
-      <button class="m-btn m-ok" style="background:var(--red-light);" onclick="confirmClearAll()">نعم، احذف الكل</button>
+      <button class="m-btn" style="background:var(--red-l);color:#fff;" onclick="confirmClearAll()">نعم، احذف الكل</button>
       <button class="m-btn m-cancel" onclick="closeModal('m-clear')">إلغاء</button>
     </div>
   </div>
 </div>
 
-<!-- Export PDF Modal -->
+<!-- Export PDF -->
 <div class="overlay" id="m-export" onclick="bgClose(event,'m-export')">
   <div class="modal">
     <h3>📤 تصدير تقرير PDF</h3>
-    <p>اختر التقرير الذي تريد تصديره — ستُفتح صفحة جاهزة للطباعة أو الحفظ كـ PDF</p>
-    <div style="display:flex;flex-direction:column;gap:10px;margin:16px 0;">
-      <button onclick="doPDF('receive')" style="padding:15px 18px;border:none;border-radius:12px;background:#E8F5E9;color:#2E7D32;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:22px;">⬇️</span> تقرير الاستلام
-      </button>
-      <button onclick="doPDF('deliver')" style="padding:15px 18px;border:none;border-radius:12px;background:#FFEBEE;color:#C62828;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:22px;">⬆️</span> تقرير التسليم
-      </button>
-      <button onclick="doPDF('cards')" style="padding:15px 18px;border:none;border-radius:12px;background:#E3F2FD;color:#1565C0;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:22px;">💳</span> تقرير البطاقات
-      </button>
-      <button onclick="doPDF('employees')" style="padding:15px 18px;border:none;border-radius:12px;background:#FFF8E1;color:#E65100;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:22px;">👥</span> تقرير الموظفين
-      </button>
-      <button onclick="doPDF('all')" style="padding:15px 18px;border:none;border-radius:12px;background:#1a1a2e;color:white;font-size:15px;font-weight:800;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:22px;">📋</span> تصدير الكل
-      </button>
+    <p>اختر التقرير — ستُفتح صفحة جاهزة للطباعة أو الحفظ كـ PDF</p>
+    <div style="margin:14px 0;">
+      <button class="exp-modal-btn" style="background:#E8F5E9;color:#2E7D32;" onclick="doPDF('receive')"><span style="font-size:20px;">⬇️</span> تقرير الاستلام</button>
+      <button class="exp-modal-btn" style="background:#FFEBEE;color:#C62828;" onclick="doPDF('deliver')"><span style="font-size:20px;">⬆️</span> تقرير التسليم</button>
+      <button class="exp-modal-btn" style="background:#FFF8E1;color:#E65100;" onclick="doPDF('expenses')"><span style="font-size:20px;">💸</span> تقرير المصروفات</button>
+      <button class="exp-modal-btn" style="background:#E3F2FD;color:#1565C0;" onclick="doPDF('cards')"><span style="font-size:20px;">💳</span> تقرير البطاقات</button>
+      <button class="exp-modal-btn" style="background:#F3E5F5;color:#6A1B9A;" onclick="doPDF('employees')"><span style="font-size:20px;">👥</span> تقرير الموظفين</button>
+      <button class="exp-modal-btn" style="background:#1a1a2e;color:#fff;" onclick="doPDF('all')"><span style="font-size:20px;">📋</span> تصدير الكل</button>
     </div>
     <button class="m-btn m-cancel" style="width:100%;" onclick="closeModal('m-export')">إلغاء</button>
   </div>
@@ -515,22 +466,21 @@
 
 <script>
 // ══════════════════════════════════════════
-//  DATA LAYER
+//  DATA
 // ══════════════════════════════════════════
-const KEY = 'amanah_v2';
+const KEY = 'amanah_v3';
+const DEFAULT_EXP_CATS = ['⛽ بنزين','🍽️ وجبات','🏠 إيجار شقة','🔧 صيانة','💰 مصروف شخصي','📦 أخرى'];
 
 function load() {
   try {
     const d = JSON.parse(localStorage.getItem(KEY));
-    if (d && d.txs) return d;
+    if (d && d.txs) {
+      if (!d.expCategories) d.expCategories = [...DEFAULT_EXP_CATS];
+      return d;
+    }
   } catch(e){}
-  return {
-    txs: [],
-    employees: ['محمد','أحمد','سعد','خالد'],
-    cardNames: ['بطاقة صراف 1','بطاقة صراف 2','بطاقة صراف 3','بطاقة صراف 4','بطاقة صراف 5']
-  };
+  return { txs:[], employees:['محمد','أحمد','سعد','خالد'], cardNames:['بطاقة صراف 1','بطاقة صراف 2','بطاقة صراف 3','بطاقة صراف 4','بطاقة صراف 5'], expCategories:[...DEFAULT_EXP_CATS] };
 }
-
 function save() { localStorage.setItem(KEY, JSON.stringify(db)); }
 
 let db = load();
@@ -540,240 +490,202 @@ let db = load();
 // ══════════════════════════════════════════
 let selSrc = null;
 let selEmp = null;
+let selExpCat = null;
+let curDlvTab = 'emp';
 let curRpt = 'rcv';
-let curScreen = 'receive';
 
 // ══════════════════════════════════════════
 //  HELPERS
 // ══════════════════════════════════════════
-function fmt(n) {
-  if (isNaN(n)) return '0';
-  return Number(n).toLocaleString('ar-SA', {minimumFractionDigits:0, maximumFractionDigits:2});
-}
-
-function fmtDate(iso) {
-  const d = new Date(iso);
-  return d.toLocaleDateString('ar-SA') + '  ' + d.toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
-}
-
-function cardName(i) {
-  if (i === 5) return 'كاش';
-  return db.cardNames[i] || ('بطاقة صراف ' + (i+1));
-}
-
-function toast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast on ' + type;
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.className = 'toast', 2600);
-}
-
-function openModal(id) {
-  document.getElementById(id).classList.add('on');
-  const inp = document.querySelector('#'+id+' input:not([type=hidden])');
-  if (inp) setTimeout(() => { inp.value=''; inp.focus(); }, 200);
-}
-
+function fmt(n) { return isNaN(n) ? '0' : Number(n).toLocaleString('ar-SA',{minimumFractionDigits:0,maximumFractionDigits:2}); }
+function fmtDate(iso) { const d=new Date(iso); return d.toLocaleDateString('ar-SA')+' — '+d.toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'}); }
+function cardName(i) { return i===5 ? 'كاش' : (db.cardNames[i]||'بطاقة صراف '+(i+1)); }
+function empty(icon,text) { return `<div class="empty"><div class="ei">${icon}</div><p>${text}</p></div>`; }
+function toast(msg,type='') { const t=document.getElementById('toast'); t.textContent=msg; t.className='toast on '+type; clearTimeout(t._t); t._t=setTimeout(()=>t.className='toast',2600); }
+function openModal(id) { document.getElementById(id).classList.add('on'); const inp=document.querySelector('#'+id+' input:not([type=hidden])'); if(inp) setTimeout(()=>{inp.value='';inp.focus();},200); }
 function closeModal(id) { document.getElementById(id).classList.remove('on'); }
-
-function bgClose(e, id) { if (e.target.classList.contains('overlay')) closeModal(id); }
-
-function empty(icon, text) {
-  return `<div class="empty"><div class="ei">${icon}</div><p>${text}</p></div>`;
-}
+function bgClose(e,id) { if(e.target.classList.contains('overlay')) closeModal(id); }
 
 // ══════════════════════════════════════════
 //  NAVIGATION
 // ══════════════════════════════════════════
-function go(name, idx) {
-  curScreen = name;
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+function go(name,idx) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
   document.getElementById('sc-'+name).classList.add('on');
   document.getElementById('nb'+idx).classList.add('on');
   document.querySelector('.screens').scrollTo(0,0);
   if (name==='balance') refreshBalance();
   if (name==='reports') renderReport();
-  if (name==='deliver') renderEmpList();
+  if (name==='deliver') { renderEmpList(); renderExpCatGrid(); }
   if (name==='settings') renderSettings();
 }
 
 // ══════════════════════════════════════════
-//  SOURCES (Receive Screen)
+//  SOURCES
 // ══════════════════════════════════════════
 function renderSources() {
   const g = document.getElementById('src-grid');
   g.innerHTML = '';
-  for (let i = 0; i < 6; i++) {
-    const name = cardName(i);
-    const icon = i===5 ? '💵' : '💳';
-    const on = selSrc===i ? ' on' : '';
-    const editBtn = i<5 ? `<span class="se" onclick="event.stopPropagation();editCard(${i})">✏️ تعديل الاسم</span>` : '';
-    const btn = document.createElement('button');
-    btn.className = 'src-btn'+on;
-    btn.innerHTML = `<span class="si">${icon}</span><span class="sn">${name}</span>${editBtn}`;
-    btn.onclick = () => { selSrc = i; renderSources(); };
+  for (let i=0;i<6;i++) {
+    const name=cardName(i), icon=i===5?'💵':'💳', on=selSrc===i?' on':'';
+    const editBtn=i<5?`<span class="se" onclick="event.stopPropagation();editCard(${i})">✏️ تعديل الاسم</span>`:'';
+    const btn=document.createElement('button');
+    btn.className='src-btn'+on;
+    btn.innerHTML=`<span class="si">${icon}</span><span class="sn">${name}</span>${editBtn}`;
+    btn.onclick=()=>{selSrc=i;renderSources();};
     g.appendChild(btn);
   }
 }
 
 function editCard(i) {
-  document.getElementById('card-name-inp').value = db.cardNames[i] || '';
-  document.getElementById('card-name-idx').value = i;
+  document.getElementById('card-name-inp').value=db.cardNames[i]||'';
+  document.getElementById('card-name-idx').value=i;
   document.getElementById('m-card-name').classList.add('on');
-  setTimeout(() => document.getElementById('card-name-inp').focus(), 200);
+  setTimeout(()=>document.getElementById('card-name-inp').focus(),200);
 }
-
 function saveCardName() {
-  const i = +document.getElementById('card-name-idx').value;
-  const v = document.getElementById('card-name-inp').value.trim();
-  if (!v) { toast('أدخل اسماً للبطاقة','err'); return; }
-  db.cardNames[i] = v;
-  save();
-  renderSources();
-  renderSettings();
-  closeModal('m-card-name');
-  toast('تم حفظ اسم البطاقة ✅','ok');
+  const i=+document.getElementById('card-name-idx').value;
+  const v=document.getElementById('card-name-inp').value.trim();
+  if (!v){toast('أدخل اسماً للبطاقة','err');return;}
+  db.cardNames[i]=v; save(); renderSources(); renderSettings(); closeModal('m-card-name'); toast('تم حفظ اسم البطاقة ✅','ok');
 }
 
 // ══════════════════════════════════════════
-//  EMPLOYEES (Deliver Screen)
+//  EMPLOYEES
 // ══════════════════════════════════════════
 function renderEmpList() {
-  const el = document.getElementById('emp-list');
-  if (!db.employees.length) {
-    el.innerHTML = empty('👤','لا يوجد موظفون — أضف موظفاً أولاً');
-    return;
-  }
-  el.innerHTML = db.employees.map(e =>
-    `<button class="emp-btn${selEmp===e?' on':''}" onclick="selEmp='${e}';renderEmpList()">
-      <span class="ei">👤</span><span class="en">${e}</span>
-    </button>`
-  ).join('');
+  const el=document.getElementById('emp-list');
+  if (!db.employees.length){el.innerHTML=empty('👤','لا يوجد موظفون — أضف موظفاً أولاً');return;}
+  el.innerHTML=db.employees.map(e=>`<button class="emp-btn${selEmp===e?' on':''}" onclick="selEmp='${e}';renderEmpList()"><span class="ei">👤</span><span class="en">${e}</span></button>`).join('');
 }
-
 function addEmployee() {
-  const v = document.getElementById('emp-name-inp').value.trim();
-  if (!v) { toast('أدخل اسم الموظف','err'); return; }
-  if (db.employees.includes(v)) { toast('الموظف موجود مسبقاً','err'); return; }
-  db.employees.push(v);
-  save();
-  renderEmpList();
-  renderSettings();
-  closeModal('m-add-emp');
-  toast(`تمت إضافة ${v} ✅`,'ok');
+  const v=document.getElementById('emp-name-inp').value.trim();
+  if (!v){toast('أدخل اسم الموظف','err');return;}
+  if (db.employees.includes(v)){toast('الموظف موجود مسبقاً','err');return;}
+  db.employees.push(v); save(); renderEmpList(); renderSettings(); closeModal('m-add-emp'); toast(`تمت إضافة ${v} ✅`,'ok');
+}
+function deleteEmployee(name) { document.getElementById('del-emp-name').value=name; document.getElementById('m-del-emp').classList.add('on'); }
+function confirmDelEmp() {
+  const name=document.getElementById('del-emp-name').value;
+  db.employees=db.employees.filter(e=>e!==name);
+  if(selEmp===name) selEmp=null;
+  save(); renderEmpList(); renderSettings(); closeModal('m-del-emp'); toast(`تم حذف ${name}`,'ok');
 }
 
-function deleteEmployee(name) {
-  document.getElementById('del-emp-name').value = name;
-  document.getElementById('m-del-emp').classList.add('on');
+// ══════════════════════════════════════════
+//  DELIVER TAB TOGGLE
+// ══════════════════════════════════════════
+function dlvTab(tab) {
+  curDlvTab = tab;
+  document.getElementById('dt-emp').classList.toggle('on', tab==='emp');
+  document.getElementById('dt-exp').classList.toggle('on', tab==='exp');
+  document.getElementById('dlv-emp-sec').style.display = tab==='emp' ? '' : 'none';
+  document.getElementById('dlv-exp-sec').style.display = tab==='exp' ? '' : 'none';
 }
 
-function confirmDeleteEmp() {
-  const name = document.getElementById('del-emp-name').value;
-  db.employees = db.employees.filter(e => e!==name);
-  if (selEmp===name) selEmp = null;
-  save();
-  renderEmpList();
-  renderSettings();
-  closeModal('m-del-emp');
-  toast(`تم حذف ${name}`,'ok');
+// ══════════════════════════════════════════
+//  EXPENSE CATEGORIES
+// ══════════════════════════════════════════
+function renderExpCatGrid() {
+  const g=document.getElementById('exp-cat-grid');
+  g.innerHTML='';
+  db.expCategories.forEach(cat=>{
+    const on=selExpCat===cat?' on':'';
+    const btn=document.createElement('button');
+    btn.className='exp-btn'+on;
+    const parts=cat.split(' '); const icon=parts[0]; const name=parts.slice(1).join(' ')||cat;
+    btn.innerHTML=`<span class="exi">${icon}</span><span class="exn">${name}</span>`;
+    btn.onclick=()=>{selExpCat=cat;renderExpCatGrid();};
+    g.appendChild(btn);
+  });
+}
+function addExpCat() {
+  const v=document.getElementById('cat-name-inp').value.trim();
+  if (!v){toast('أدخل اسم نوع المصروف','err');return;}
+  if (db.expCategories.includes(v)){toast('هذا النوع موجود مسبقاً','err');return;}
+  db.expCategories.push(v); save(); renderExpCatGrid(); renderSettings(); closeModal('m-add-cat'); toast(`تمت إضافة ${v} ✅`,'ok');
+}
+function deleteExpCat(cat) { document.getElementById('del-cat-name').value=cat; document.getElementById('m-del-cat').classList.add('on'); }
+function confirmDelCat() {
+  const cat=document.getElementById('del-cat-name').value;
+  db.expCategories=db.expCategories.filter(c=>c!==cat);
+  if(selExpCat===cat) selExpCat=null;
+  save(); renderExpCatGrid(); renderSettings(); closeModal('m-del-cat'); toast(`تم حذف ${cat}`,'ok');
 }
 
 // ══════════════════════════════════════════
 //  SAVE OPERATIONS
 // ══════════════════════════════════════════
 function saveReceive() {
-  const amt = parseFloat(document.getElementById('rcv-amt').value);
-  if (!amt || amt<=0) { toast('أدخل مبلغاً صحيحاً','err'); return; }
-  if (selSrc===null) { toast('اختر مصدر الاستلام','err'); return; }
-
-  db.txs.push({
-    type:'receive', amount:amt,
-    src:selSrc, srcName:cardName(selSrc),
-    date:new Date().toISOString()
-  });
-  save();
-  document.getElementById('rcv-amt').value='';
-  selSrc=null;
-  renderSources();
-  refreshHeaderBalance();
+  const amt=parseFloat(document.getElementById('rcv-amt').value);
+  if (!amt||amt<=0){toast('أدخل مبلغاً صحيحاً','err');return;}
+  if (selSrc===null){toast('اختر مصدر الاستلام','err');return;}
+  db.txs.push({type:'receive',amount:amt,src:selSrc,srcName:cardName(selSrc),date:new Date().toISOString()});
+  save(); document.getElementById('rcv-amt').value=''; selSrc=null; renderSources(); refreshHdrBal();
   toast(`✅ تم استلام ${fmt(amt)} ريال`,'ok');
 }
 
 function saveDeliver() {
-  const amt = parseFloat(document.getElementById('dlv-amt').value);
-  if (!amt || amt<=0) { toast('أدخل مبلغاً صحيحاً','err'); return; }
-  if (!selEmp) { toast('اختر الموظف أولاً','err'); return; }
-
-  const empName = selEmp;
-  db.txs.push({
-    type:'deliver', amount:amt,
-    employee:empName,
-    date:new Date().toISOString()
-  });
-  save();
-  document.getElementById('dlv-amt').value='';
-  selEmp=null;
-  renderEmpList();
-  refreshHeaderBalance();
+  const amt=parseFloat(document.getElementById('dlv-amt').value);
+  if (!amt||amt<=0){toast('أدخل مبلغاً صحيحاً','err');return;}
+  if (!selEmp){toast('اختر الموظف أولاً','err');return;}
+  const empName=selEmp;
+  db.txs.push({type:'deliver',amount:amt,employee:empName,date:new Date().toISOString()});
+  save(); document.getElementById('dlv-amt').value=''; selEmp=null; renderEmpList(); refreshHdrBal();
   toast(`✅ تم تسليم ${fmt(amt)} ريال لـ${empName}`,'ok');
 }
 
+function saveExpense() {
+  const amt=parseFloat(document.getElementById('exp-amt').value);
+  if (!amt||amt<=0){toast('أدخل مبلغاً صحيحاً','err');return;}
+  if (!selExpCat){toast('اختر نوع المصروف أولاً','err');return;}
+  const cat=selExpCat;
+  db.txs.push({type:'expense',amount:amt,category:cat,date:new Date().toISOString()});
+  save(); document.getElementById('exp-amt').value=''; selExpCat=null; renderExpCatGrid(); refreshHdrBal();
+  toast(`✅ تم تسجيل مصروف ${fmt(amt)} ريال — ${cat}`,'ok');
+}
+
 // ══════════════════════════════════════════
-//  BALANCE
+//  STATS & BALANCE
 // ══════════════════════════════════════════
 function stats() {
-  const totRcv = db.txs.filter(t=>t.type==='receive').reduce((s,t)=>s+t.amount,0);
-  const totDlv = db.txs.filter(t=>t.type==='deliver').reduce((s,t)=>s+t.amount,0);
-  const bal = totRcv - totDlv;
-  const today = new Date().toDateString();
-  const todayCnt = db.txs.filter(t=>new Date(t.date).toDateString()===today).length;
-  return {totRcv, totDlv, bal, todayCnt};
+  const totRcv=db.txs.filter(t=>t.type==='receive').reduce((s,t)=>s+t.amount,0);
+  const totDlv=db.txs.filter(t=>t.type==='deliver').reduce((s,t)=>s+t.amount,0);
+  const totExp=db.txs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const bal=totRcv-totDlv-totExp;
+  const today=new Date().toDateString();
+  const todayCnt=db.txs.filter(t=>new Date(t.date).toDateString()===today).length;
+  return {totRcv,totDlv,totExp,bal,todayCnt};
 }
-
 function refreshBalance() {
-  const {totRcv,totDlv,bal,todayCnt} = stats();
-  document.getElementById('bal-num').textContent = fmt(bal);
-  document.getElementById('tot-rcv').textContent = fmt(totRcv);
-  document.getElementById('tot-dlv').textContent = fmt(totDlv);
-  document.getElementById('today-cnt').textContent = todayCnt;
-  refreshHeaderBalance();
+  const {totRcv,totDlv,totExp,bal,todayCnt}=stats();
+  document.getElementById('bal-num').textContent=fmt(bal);
+  document.getElementById('tot-rcv').textContent=fmt(totRcv);
+  document.getElementById('tot-dlv').textContent=fmt(totDlv);
+  document.getElementById('tot-exp').textContent=fmt(totExp);
+  document.getElementById('today-cnt').textContent=todayCnt;
+  refreshHdrBal();
 }
-
-function refreshHeaderBalance() {
-  const {bal} = stats();
-  document.getElementById('hdr-bal').textContent = fmt(bal);
-}
+function refreshHdrBal() { document.getElementById('hdr-bal').textContent=fmt(stats().bal); }
 
 // ══════════════════════════════════════════
 //  INVENTORY
 // ══════════════════════════════════════════
 function doInventory() {
-  const actual = parseFloat(document.getElementById('inv-inp').value);
-  if (isNaN(actual)||actual<0) { toast('أدخل مبلغاً صحيحاً','err'); return; }
-  const {bal} = stats();
-  const diff = actual - bal;
+  const actual=parseFloat(document.getElementById('inv-inp').value);
+  if (isNaN(actual)||actual<0){toast('أدخل مبلغاً صحيحاً','err');return;}
+  const {bal}=stats();
+  const diff=actual-bal;
   closeModal('m-inv');
-
   let html;
   if (Math.abs(diff)<0.01) {
-    html=`<div class="inv-res ok">
-      <div class="iri">✅</div>
-      <div class="irt">الرصيد سليم 👍</div>
-      <div class="ird">المبلغ المتوقع: <b>${fmt(bal)}</b> ريال</div>
-    </div>`;
+    html=`<div class="inv-res ok"><div class="iri">✅</div><div class="irt">الرصيد سليم 👍</div><div class="ird">المبلغ المتوقع: <b>${fmt(bal)} ريال</b></div></div>`;
   } else {
-    const sign = diff>0 ? 'زيادة' : 'نقص';
-    html=`<div class="inv-res diff">
-      <div class="iri">⚠️</div>
-      <div class="irt">يوجد فرق!</div>
-      <div class="ird">المتوقع: <b>${fmt(bal)}</b> | الفعلي: <b>${fmt(actual)}</b></div>
-      <div class="ird" style="margin-top:8px;font-weight:800;font-size:16px;color:var(--red);">${sign} ${fmt(Math.abs(diff))} ريال</div>
-    </div>`;
+    const sign=diff>0?'زيادة':'نقص';
+    html=`<div class="inv-res diff"><div class="iri">⚠️</div><div class="irt">يوجد فرق!</div><div class="ird">المتوقع: <b>${fmt(bal)}</b> | الفعلي: <b>${fmt(actual)}</b></div><div class="ird" style="margin-top:8px;font-size:16px;font-weight:800;color:var(--red);">${sign} ${fmt(Math.abs(diff))} ريال</div></div>`;
   }
-  document.getElementById('inv-result').innerHTML = html;
+  document.getElementById('inv-result').innerHTML=html;
   go('balance',2);
 }
 
@@ -782,249 +694,177 @@ function doInventory() {
 // ══════════════════════════════════════════
 function rptTab(t) {
   curRpt=t;
-  document.querySelectorAll('.rt-btn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('rt-'+t).classList.add('on');
+  document.querySelectorAll('.rt-chip').forEach(b=>b.classList.remove('on'));
+  document.getElementById('rc-'+t).classList.add('on');
   renderReport();
 }
-
 function renderReport() {
-  const b = document.getElementById('rpt-body');
-  if (curRpt==='rcv') b.innerHTML = rptReceive();
-  else if (curRpt==='dlv') b.innerHTML = rptDeliver();
-  else if (curRpt==='cards') b.innerHTML = rptCards();
-  else if (curRpt==='emps') b.innerHTML = rptEmployees();
+  const b=document.getElementById('rpt-body');
+  if (curRpt==='rcv') b.innerHTML=rptReceive();
+  else if (curRpt==='dlv') b.innerHTML=rptDeliver();
+  else if (curRpt==='exps') b.innerHTML=rptExpenses();
+  else if (curRpt==='cards') b.innerHTML=rptCards();
+  else if (curRpt==='emps') b.innerHTML=rptEmployees();
 }
 
 function rptReceive() {
-  const txs = db.txs.filter(t=>t.type==='receive').slice().reverse();
-  const tot = txs.reduce((s,t)=>s+t.amount,0);
+  const txs=db.txs.filter(t=>t.type==='receive').slice().reverse();
+  const tot=txs.reduce((s,t)=>s+t.amount,0);
   if (!txs.length) return empty('⬇️','لا توجد عمليات استلام بعد');
-  return `
-    <div class="rpt-sum">
-      <div class="rs-item"><div class="rs-lbl">عدد العمليات</div><div class="rs-val">${txs.length}</div></div>
-      <div class="rs-item"><div class="rs-lbl">الإجمالي</div><div class="rs-val">${fmt(tot)} ﷼</div></div>
-    </div>
-    <div class="tx-list">
-      ${txs.map(t=>`
-        <div class="tx">
-          <div class="tx-l">
-            <div class="txi g">${t.src===5?'💵':'💳'}</div>
-            <div><div class="tx-src">${t.srcName||cardName(t.src)}</div><div class="tx-dt">${fmtDate(t.date)}</div></div>
-          </div>
-          <div class="tx-amt g">+${fmt(t.amount)}</div>
-        </div>`).join('')}
-    </div>`;
+  return `<div class="rpt-sum"><div class="rs-item"><div class="rs-lbl">عدد العمليات</div><div class="rs-val">${txs.length}</div></div><div class="rs-item"><div class="rs-lbl">الإجمالي</div><div class="rs-val">${fmt(tot)} ﷼</div></div></div>
+<div class="tx-list">${txs.map(t=>`<div class="tx"><div class="tx-l"><div class="txi g">${t.src===5?'💵':'💳'}</div><div><div class="tx-src">${t.srcName||cardName(t.src)}</div><div class="tx-dt">${fmtDate(t.date)}</div></div></div><div class="tx-amt g">+${fmt(t.amount)} ﷼</div></div>`).join('')}</div>`;
 }
 
 function rptDeliver() {
-  const txs = db.txs.filter(t=>t.type==='deliver').slice().reverse();
-  const tot = txs.reduce((s,t)=>s+t.amount,0);
+  const txs=db.txs.filter(t=>t.type==='deliver').slice().reverse();
+  const tot=txs.reduce((s,t)=>s+t.amount,0);
   if (!txs.length) return empty('⬆️','لا توجد عمليات تسليم بعد');
-  return `
-    <div class="rpt-sum">
-      <div class="rs-item"><div class="rs-lbl">عدد العمليات</div><div class="rs-val">${txs.length}</div></div>
-      <div class="rs-item"><div class="rs-lbl">الإجمالي</div><div class="rs-val">${fmt(tot)} ﷼</div></div>
-    </div>
-    <div class="tx-list">
-      ${txs.map(t=>`
-        <div class="tx">
-          <div class="tx-l">
-            <div class="txi r">👤</div>
-            <div><div class="tx-src">${t.employee}</div><div class="tx-dt">${fmtDate(t.date)}</div></div>
-          </div>
-          <div class="tx-amt r">-${fmt(t.amount)}</div>
-        </div>`).join('')}
-    </div>`;
+  return `<div class="rpt-sum"><div class="rs-item"><div class="rs-lbl">عدد العمليات</div><div class="rs-val">${txs.length}</div></div><div class="rs-item"><div class="rs-lbl">الإجمالي</div><div class="rs-val">${fmt(tot)} ﷼</div></div></div>
+<div class="tx-list">${txs.map(t=>`<div class="tx"><div class="tx-l"><div class="txi r">👤</div><div><div class="tx-src">${t.employee}</div><div class="tx-dt">${fmtDate(t.date)}</div></div></div><div class="tx-amt r">-${fmt(t.amount)} ﷼</div></div>`).join('')}</div>`;
+}
+
+function rptExpenses() {
+  const txs=db.txs.filter(t=>t.type==='expense').slice().reverse();
+  const tot=txs.reduce((s,t)=>s+t.amount,0);
+  if (!txs.length) return empty('💸','لا توجد مصروفات مسجلة بعد');
+  return `<div class="rpt-sum"><div class="rs-item"><div class="rs-lbl">عدد المصروفات</div><div class="rs-val">${txs.length}</div></div><div class="rs-item"><div class="rs-lbl">الإجمالي</div><div class="rs-val">${fmt(tot)} ﷼</div></div></div>
+<div class="tx-list">${txs.map(t=>{const parts=t.category.split(' ');const icon=parts[0];return `<div class="tx"><div class="tx-l"><div class="txi o">${icon}</div><div><div class="tx-src">${t.category}</div><div class="tx-dt">${fmtDate(t.date)}</div></div></div><div class="tx-amt o">-${fmt(t.amount)} ﷼</div></div>`;}).join('')}</div>`;
 }
 
 function rptCards() {
-  const rows = [];
-  for (let i=0;i<6;i++) {
-    const txs = db.txs.filter(t=>t.type==='receive'&&t.src===i);
-    rows.push({name:cardName(i),icon:i===5?'💵':'💳',tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length});
-  }
-  return rows.map(r=>`
-    <div class="card-stat">
-      <div class="cs-l">
-        <div class="cs-icon">${r.icon}</div>
-        <div><div class="cs-name">${r.name}</div><div class="cs-cnt">${r.cnt} عملية</div></div>
-      </div>
-      <div class="cs-amt">${fmt(r.tot)} ﷼</div>
-    </div>`).join('');
+  const rows=[];
+  for (let i=0;i<6;i++){const txs=db.txs.filter(t=>t.type==='receive'&&t.src===i);rows.push({name:cardName(i),icon:i===5?'💵':'💳',tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length});}
+  return `<div class="tx-list">${rows.map(r=>`<div class="cs-card"><div class="cs-l"><div class="cs-icon">${r.icon}</div><div><div class="cs-name">${r.name}</div><div class="cs-cnt">${r.cnt} عملية</div></div></div><div class="cs-amt">${fmt(r.tot)} ﷼</div></div>`).join('')}</div>`;
+}
+
+function rptExpByCategory() {
+  const all=[...new Set([...db.expCategories,...db.txs.filter(t=>t.type==='expense').map(t=>t.category)])];
+  return all.map(cat=>{
+    const txs=db.txs.filter(t=>t.type==='expense'&&t.category===cat);
+    return {cat,tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length};
+  }).filter(r=>r.cnt>0).sort((a,b)=>b.tot-a.tot);
 }
 
 function rptEmployees() {
-  const allEmps = [...new Set([...db.employees,...db.txs.filter(t=>t.type==='deliver').map(t=>t.employee)])];
-  if (!allEmps.length) return empty('👥','لا يوجد موظفون بعد');
-  const rows = allEmps.map(e=>{
-    const txs = db.txs.filter(t=>t.type==='deliver'&&t.employee===e);
-    return {name:e,tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length};
-  }).sort((a,b)=>b.tot-a.tot);
-  return `
-    <div class="tx-list">
-      ${rows.map(r=>`
-        <div class="tx">
-          <div class="tx-l">
-            <div class="txi r">👤</div>
-            <div><div class="tx-src">${r.name}</div><div class="tx-dt">${r.cnt} عملية</div></div>
-          </div>
-          <div class="tx-amt r">${fmt(r.tot)} ﷼</div>
-        </div>`).join('')}
-    </div>`;
+  const all=[...new Set([...db.employees,...db.txs.filter(t=>t.type==='deliver').map(t=>t.employee)])];
+  if (!all.length) return empty('👥','لا يوجد موظفون بعد');
+  const rows=all.map(e=>{const txs=db.txs.filter(t=>t.type==='deliver'&&t.employee===e);return {name:e,tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length};}).sort((a,b)=>b.tot-a.tot);
+  return `<div class="tx-list">${rows.map(r=>`<div class="tx"><div class="tx-l"><div class="txi r">👤</div><div><div class="tx-src">${r.name}</div><div class="tx-dt">${r.cnt} عملية</div></div></div><div class="tx-amt r">${fmt(r.tot)} ﷼</div></div>`).join('')}</div>`;
 }
 
 // ══════════════════════════════════════════
 //  SETTINGS
 // ══════════════════════════════════════════
 function renderSettings() {
-  // Card names
-  const cnl = document.getElementById('card-names-list');
-  cnl.innerHTML = db.cardNames.map((n,i)=>`
-    <div class="set-row">
-      <div><div class="set-label">💳 ${n}</div><div class="set-sub">البطاقة رقم ${i+1}</div></div>
-      <button class="set-action info" onclick="editCard(${i})">تعديل</button>
-    </div>`).join('');
-
-  // Employees
-  const esl = document.getElementById('emp-settings-list');
-  if (!db.employees.length) {
-    esl.innerHTML='<div style="color:#bbb;font-size:13px;padding:10px 0;text-align:center;">لا يوجد موظفون</div>';
-    return;
-  }
-  esl.innerHTML = db.employees.map(e=>`
-    <div class="set-row">
-      <div><div class="set-label">👤 ${e}</div></div>
-      <button class="set-action danger" onclick="deleteEmployee('${e}')">حذف</button>
-    </div>`).join('');
+  document.getElementById('card-names-list').innerHTML=db.cardNames.map((n,i)=>`<div class="set-row"><div><div class="set-label">💳 ${n}</div><div class="set-sub">البطاقة رقم ${i+1}</div></div><button class="set-action info" onclick="editCard(${i})">تعديل</button></div>`).join('');
+  document.getElementById('emp-settings-list').innerHTML=db.employees.length?db.employees.map(e=>`<div class="set-row"><div><div class="set-label">👤 ${e}</div></div><button class="set-action danger" onclick="deleteEmployee('${e}')">حذف</button></div>`).join(''):'<div style="color:#bbb;font-size:13px;padding:10px 0;text-align:center;">لا يوجد موظفون</div>';
+  document.getElementById('exp-cat-settings').innerHTML=db.expCategories.map(c=>`<div class="set-row"><div><div class="set-label">${c}</div></div><button class="set-action danger" onclick="deleteExpCat('${c}')">حذف</button></div>`).join('');
 }
-
 function clearAll() { openModal('m-clear'); }
-
 function confirmClearAll() {
-  db = {txs:[],employees:['محمد','أحمد','سعد','خالد'],cardNames:['بطاقة صراف 1','بطاقة صراف 2','بطاقة صراف 3','بطاقة صراف 4','بطاقة صراف 5']};
-  save();
-  selSrc=null; selEmp=null;
-  renderSources(); renderEmpList(); refreshHeaderBalance();
-  closeModal('m-clear');
-  toast('تم حذف جميع البيانات','ok');
+  db={txs:[],employees:['محمد','أحمد','سعد','خالد'],cardNames:['بطاقة صراف 1','بطاقة صراف 2','بطاقة صراف 3','بطاقة صراف 4','بطاقة صراف 5'],expCategories:[...DEFAULT_EXP_CATS]};
+  save(); selSrc=null; selEmp=null; selExpCat=null;
+  renderSources(); renderEmpList(); renderExpCatGrid(); refreshHdrBal();
+  closeModal('m-clear'); toast('تم حذف جميع البيانات','ok');
 }
-
 function exportData() {
-  const json = JSON.stringify(db, null, 2);
-  const blob = new Blob([json], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href=url; a.download='amanah-backup-'+new Date().toISOString().slice(0,10)+'.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  toast('تم تصدير البيانات ✅','ok');
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='amanah-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+  URL.revokeObjectURL(url); toast('تم تصدير البيانات ✅','ok');
 }
 
 // ══════════════════════════════════════════
-//  PWA — Service Worker
-// ══════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
-}
-
-// ══════════════════════════════════════════
-//  EXPORT / PDF
+//  PDF EXPORT
 // ══════════════════════════════════════════
 function doPDF(type) {
   closeModal('m-export');
-  const date = new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
-  const {totRcv,totDlv,bal} = stats();
+  const date=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+  const {totRcv,totDlv,totExp,bal}=stats();
+  let sections='';
+  if (type==='receive'  ||type==='all') sections+=psReceive();
+  if (type==='deliver'  ||type==='all') sections+=psDeliver();
+  if (type==='expenses' ||type==='all') sections+=psExpenses();
+  if (type==='cards'    ||type==='all') sections+=psCards();
+  if (type==='employees'||type==='all') sections+=psEmployees();
 
-  let sections = '';
-  if (type==='receive'||type==='all') sections += psReceive();
-  if (type==='deliver'||type==='all') sections += psDeliver();
-  if (type==='cards'  ||type==='all') sections += psCards();
-  if (type==='employees'||type==='all') sections += psEmployees();
-
-  const html = `<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+  const html=`<!DOCTYPE html><html lang="ar" dir="rtl"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>عهدتي — تقرير</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;padding:20px 16px;color:#1a1a2e;background:#fff;}
-.hdr{text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:3px solid #1a1a2e;}
+.hdr{text-align:center;margin-bottom:18px;padding-bottom:14px;border-bottom:3px solid #1a1a2e;}
 .hdr h1{font-size:24px;font-weight:900;}.hdr p{font-size:12px;color:#888;margin-top:4px;}
-.sum{display:flex;justify-content:space-around;background:#1a1a2e;color:#fff;border-radius:10px;padding:14px;margin-bottom:20px;}
-.si .sl{font-size:10px;opacity:.6;}.si .sv{font-size:16px;font-weight:800;margin-top:3px;}
-.g{color:#69F0AE;}.r{color:#FF8A80;}.b{color:#82B1FF;}
-.sec{margin-bottom:20px;page-break-inside:avoid;}
+.sum{display:flex;justify-content:space-around;flex-wrap:wrap;gap:8px;background:#1a1a2e;color:#fff;border-radius:10px;padding:14px;margin-bottom:18px;}
+.si .sl{font-size:10px;opacity:.6;}.si .sv{font-size:15px;font-weight:800;margin-top:3px;}
+.g{color:#69F0AE;}.r{color:#FF8A80;}.o{color:#FFCC80;}.b{color:#82B1FF;}
+.sec{margin-bottom:18px;page-break-inside:avoid;}
 .sec h2{font-size:13px;font-weight:800;padding:8px 12px;background:#f5f5f5;border-right:4px solid #1a1a2e;border-radius:4px;margin-bottom:9px;}
 table{width:100%;border-collapse:collapse;}
 th{background:#1a1a2e;color:#fff;padding:9px 8px;font-size:11px;font-weight:700;text-align:right;}
 td{padding:8px;font-size:12px;border-bottom:1px solid #f0f0f0;text-align:right;}
 tr:nth-child(even) td{background:#fafafa;}
-td.g{color:#2E7D32;font-weight:700;}td.r{color:#C62828;font-weight:700;}
-.foot{text-align:center;margin-top:20px;font-size:10px;color:#bbb;border-top:1px solid #eee;padding-top:10px;}
-.pbt{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);padding:13px 30px;background:#1a1a2e;color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.3);}
+td.g{color:#2E7D32;font-weight:700;}td.r{color:#C62828;font-weight:700;}td.o{color:#E65100;font-weight:700;}
+.foot{text-align:center;margin-top:20px;font-size:11px;color:#bbb;border-top:1px solid #eee;padding-top:12px;}
+.foot b{color:#1a1a2e;}
+.pbt{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);padding:13px 28px;background:#1a1a2e;color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.3);}
 @media print{.pbt{display:none;}}
 </style></head><body>
 <div class="hdr"><h1>💰 عهدتي</h1><p>${date}</p></div>
 <div class="sum">
   <div class="si"><div class="sl">إجمالي المستلم</div><div class="sv g">${fmt(totRcv)} ﷼</div></div>
   <div class="si"><div class="sl">إجمالي المسلَّم</div><div class="sv r">${fmt(totDlv)} ﷼</div></div>
+  <div class="si"><div class="sl">إجمالي المصروفات</div><div class="sv o">${fmt(totExp)} ﷼</div></div>
   <div class="si"><div class="sl">الرصيد الحالي</div><div class="sv b">${fmt(bal)} ﷼</div></div>
 </div>
 ${sections}
-<div class="foot">تم إنشاء هذا التقرير بواسطة تطبيق عهدتي • ${new Date().toLocaleString('ar-SA')}</div>
+<div class="foot">تصميم وتطوير: <b>محمد عبد العظيم</b> — جميع الحقوق محفوظة &copy; ٢٠٢٥<br><span style="font-size:10px;">تم إنشاؤه بواسطة تطبيق عهدتي • ${new Date().toLocaleString('ar-SA')}</span></div>
 <button class="pbt" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
 </body></html>`;
 
-  const w = window.open('','_blank');
-  if (!w) { toast('فعّل السماح بالنوافذ المنبثقة في المتصفح','err'); return; }
-  w.document.write(html);
-  w.document.close();
+  const w=window.open('','_blank');
+  if (!w){toast('فعّل السماح بالنوافذ المنبثقة في المتصفح','err');return;}
+  w.document.write(html); w.document.close();
 }
 
 function psReceive() {
-  const txs = db.txs.filter(t=>t.type==='receive');
-  if (!txs.length) return '<div class="sec"><h2>⬇️ تقرير الاستلام</h2><p style="padding:10px;color:#aaa;font-size:13px;">لا توجد بيانات</p></div>';
-  const tot = txs.reduce((s,t)=>s+t.amount,0);
-  return `<div class="sec"><h2>⬇️ تقرير الاستلام — الإجمالي: ${fmt(tot)} ﷼ (${txs.length} عملية)</h2>
-<table><tr><th>المصدر</th><th>المبلغ</th><th>التاريخ والوقت</th></tr>
-${txs.map(t=>`<tr><td>${t.srcName||cardName(t.src)}</td><td class="g">+${fmt(t.amount)} ﷼</td><td>${fmtDate(t.date)}</td></tr>`).join('')}
-</table></div>`;
+  const txs=db.txs.filter(t=>t.type==='receive');
+  if (!txs.length) return '';
+  const tot=txs.reduce((s,t)=>s+t.amount,0);
+  return `<div class="sec"><h2>⬇️ تقرير الاستلام — الإجمالي: ${fmt(tot)} ﷼ (${txs.length} عملية)</h2><table><tr><th>المصدر</th><th>المبلغ</th><th>التاريخ والوقت</th></tr>${txs.map(t=>`<tr><td>${t.srcName||cardName(t.src)}</td><td class="g">+${fmt(t.amount)} ﷼</td><td>${fmtDate(t.date)}</td></tr>`).join('')}</table></div>`;
 }
-
 function psDeliver() {
-  const txs = db.txs.filter(t=>t.type==='deliver');
-  if (!txs.length) return '<div class="sec"><h2>⬆️ تقرير التسليم</h2><p style="padding:10px;color:#aaa;font-size:13px;">لا توجد بيانات</p></div>';
-  const tot = txs.reduce((s,t)=>s+t.amount,0);
-  return `<div class="sec"><h2>⬆️ تقرير التسليم — الإجمالي: ${fmt(tot)} ﷼ (${txs.length} عملية)</h2>
-<table><tr><th>الموظف</th><th>المبلغ</th><th>التاريخ والوقت</th></tr>
-${txs.map(t=>`<tr><td>${t.employee}</td><td class="r">-${fmt(t.amount)} ﷼</td><td>${fmtDate(t.date)}</td></tr>`).join('')}
-</table></div>`;
+  const txs=db.txs.filter(t=>t.type==='deliver');
+  if (!txs.length) return '';
+  const tot=txs.reduce((s,t)=>s+t.amount,0);
+  return `<div class="sec"><h2>⬆️ تقرير التسليم — الإجمالي: ${fmt(tot)} ﷼ (${txs.length} عملية)</h2><table><tr><th>الموظف</th><th>المبلغ</th><th>التاريخ والوقت</th></tr>${txs.map(t=>`<tr><td>${t.employee}</td><td class="r">-${fmt(t.amount)} ﷼</td><td>${fmtDate(t.date)}</td></tr>`).join('')}</table></div>`;
 }
-
+function psExpenses() {
+  const txs=db.txs.filter(t=>t.type==='expense');
+  if (!txs.length) return '';
+  const tot=txs.reduce((s,t)=>s+t.amount,0);
+  const byCat=rptExpByCategory();
+  return `<div class="sec"><h2>💸 تقرير المصروفات — الإجمالي: ${fmt(tot)} ﷼ (${txs.length} عملية)</h2><table><tr><th>نوع المصروف</th><th>عدد المرات</th><th>الإجمالي</th></tr>${byCat.map(r=>`<tr><td>${r.cat}</td><td>${r.cnt}</td><td class="o">${fmt(r.tot)} ﷼</td></tr>`).join('')}</table><br><table><tr><th>نوع المصروف</th><th>المبلغ</th><th>التاريخ</th></tr>${txs.map(t=>`<tr><td>${t.category}</td><td class="o">-${fmt(t.amount)} ﷼</td><td>${fmtDate(t.date)}</td></tr>`).join('')}</table></div>`;
+}
 function psCards() {
-  const rows = [];
-  for (let i=0;i<6;i++) {
-    const txs = db.txs.filter(t=>t.type==='receive'&&t.src===i);
-    rows.push({name:cardName(i),tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length});
-  }
-  return `<div class="sec"><h2>💳 تقرير البطاقات ومصادر الاستلام</h2>
-<table><tr><th>المصدر</th><th>عدد العمليات</th><th>الإجمالي</th></tr>
-${rows.map(r=>`<tr><td>${r.name}</td><td>${r.cnt}</td><td class="g">${fmt(r.tot)} ﷼</td></tr>`).join('')}
-</table></div>`;
+  const rows=[];
+  for(let i=0;i<6;i++){const txs=db.txs.filter(t=>t.type==='receive'&&t.src===i);rows.push({name:cardName(i),tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length});}
+  return `<div class="sec"><h2>💳 تقرير البطاقات ومصادر الاستلام</h2><table><tr><th>المصدر</th><th>عدد العمليات</th><th>الإجمالي</th></tr>${rows.map(r=>`<tr><td>${r.name}</td><td>${r.cnt}</td><td class="g">${fmt(r.tot)} ﷼</td></tr>`).join('')}</table></div>`;
+}
+function psEmployees() {
+  const all=[...new Set([...db.employees,...db.txs.filter(t=>t.type==='deliver').map(t=>t.employee)])];
+  if (!all.length) return '';
+  const rows=all.map(e=>{const txs=db.txs.filter(t=>t.type==='deliver'&&t.employee===e);return{name:e,tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length};}).sort((a,b)=>b.tot-a.tot);
+  return `<div class="sec"><h2>👥 تقرير الموظفين</h2><table><tr><th>الموظف</th><th>عدد العمليات</th><th>إجمالي ما استلم</th></tr>${rows.map(r=>`<tr><td>${r.name}</td><td>${r.cnt}</td><td class="r">${fmt(r.tot)} ﷼</td></tr>`).join('')}</table></div>`;
 }
 
-function psEmployees() {
-  const all = [...new Set([...db.employees,...db.txs.filter(t=>t.type==='deliver').map(t=>t.employee)])];
-  if (!all.length) return '';
-  const rows = all.map(e=>{
-    const txs = db.txs.filter(t=>t.type==='deliver'&&t.employee===e);
-    return {name:e,tot:txs.reduce((s,t)=>s+t.amount,0),cnt:txs.length};
-  }).sort((a,b)=>b.tot-a.tot);
-  return `<div class="sec"><h2>👥 تقرير الموظفين</h2>
-<table><tr><th>الموظف</th><th>عدد العمليات</th><th>إجمالي ما استلم</th></tr>
-${rows.map(r=>`<tr><td>${r.name}</td><td>${r.cnt}</td><td class="r">${fmt(r.tot)} ﷼</td></tr>`).join('')}
-</table></div>`;
+// ══════════════════════════════════════════
+//  PWA — Service Worker
+// ══════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 }
 
 // ══════════════════════════════════════════
@@ -1032,7 +872,8 @@ ${rows.map(r=>`<tr><td>${r.name}</td><td>${r.cnt}</td><td class="r">${fmt(r.tot)
 // ══════════════════════════════════════════
 renderSources();
 renderEmpList();
-refreshHeaderBalance();
+renderExpCatGrid();
+refreshHdrBal();
 </script>
 </body>
 </html>
